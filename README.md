@@ -4,7 +4,7 @@ Minimal responsive frontend for a cinema ticket booking system built with Astro 
 This project implements:
 - Register / Login pages (supports JWT from provided backend endpoints)
 - Studio list and seat map (5 studios, 20 seats each assumed from backend)
-- Online booking (uses the backend endpoints you supplied)
+- Online booking (uses the backend endpoints supplied)
 - Offline booking (cashier)
 - Generates QR code (uses `qrcode` lib) after successful booking for validation at theater
 - Seats are locked after booking (backend responsibility) — frontend shows optimistic lock and fetches seats after booking
