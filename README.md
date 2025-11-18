@@ -9,7 +9,7 @@ This project implements:
 - Generates QR code (uses `qrcode` lib) after successful booking for validation at theater
 - Seats are locked after booking (backend responsibility) — frontend shows optimistic lock and fetches seats after booking
 
-## Backend endpoints (provided by you)
+## Backend endpoints
 - POST /api/auth/register
 - POST /api/auth/login
 - GET  /api/cinema/studios
