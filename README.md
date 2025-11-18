@@ -1,4 +1,4 @@
-# Cinema Booking — Astro + React (TypeScript)
+# iCinema Booking — Astro + React (TypeScript)
 
 Minimal responsive frontend for a cinema ticket booking system built with Astro + React (TypeScript).
 This project implements:
@@ -28,6 +28,13 @@ This project implements:
    npm run dev
    ```
 3. Open http://localhost:3000
+
+## How to run test
+
+1. Run test:
+   ```
+   npm run test
+   ```
 
 ## Notes
 - Replace `API_BASE` in `src/lib/api.ts` if your backend runs on a different host/port.

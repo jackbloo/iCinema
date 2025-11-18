@@ -12,7 +12,7 @@ export default function App() {
   return (
     <div className="container">
       <header className="header">
-        <h1>🎬 Cinema Booking</h1>
+        <h1>🎬 iCinema Booking</h1>
         <div>
           {token ? (
             <>

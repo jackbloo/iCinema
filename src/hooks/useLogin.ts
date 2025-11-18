@@ -14,7 +14,7 @@ export default function useLogin({onAuth}: {onAuth: (token: string, name: string
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await api.post('/auth/login', { email, password });
+      const res: { token: string; name?: string } = await api.post('/auth/login', { email, password });
       if (res.token) {
         onAuth(res.token, res.name ?? email);
       } else {
