@@ -30,6 +30,4 @@ This project implements:
 3. Open http://localhost:3000
 
 ## Notes
-- This scaffold focuses on frontend flow; it expects the backend endpoints to behave as described in your spec.
 - Replace `API_BASE` in `src/lib/api.ts` if your backend runs on a different host/port.
-- This code is intentionally minimal and easy to adapt.
