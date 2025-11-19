@@ -1,4 +1,4 @@
-# iCinema Booking — Astro + React (TypeScript)
+# iCinema Booking — Astro + React with Vitest Unit test (TypeScript)
 ![Mobile](./assets/mobile.png)
 ![Desktop](./assets/desktop.png)
 
