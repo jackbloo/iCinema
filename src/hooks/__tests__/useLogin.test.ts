@@ -29,14 +29,18 @@ describe('useLogin', () => {
     expect(result.current.email).toBe('');
     expect(result.current.password).toBe('');
     expect(result.current.loading).toBe(false);
+    expect(result.current.errorMessage).toEqual({
+      email: null,
+      password: null,
+    });
   });
 
   it('should update email and password', () => {
     const { result } = renderHook(() => useLogin({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
     });
 
     expect(result.current.email).toBe('test@example.com');
@@ -71,8 +75,8 @@ describe('useLogin', () => {
     const { result } = renderHook(() => useLogin({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -101,8 +105,8 @@ describe('useLogin', () => {
     const { result } = renderHook(() => useLogin({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail(mockEmail);
-      result.current.setPassword('password123');
+      result.current.handleChange('email', mockEmail);
+      result.current.handleChange('password', 'password123');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -120,8 +124,8 @@ describe('useLogin', () => {
     const { result } = renderHook(() => useLogin({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -141,8 +145,8 @@ describe('useLogin', () => {
     const { result } = renderHook(() => useLogin({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -167,8 +171,8 @@ describe('useLogin', () => {
     const { result } = renderHook(() => useLogin({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;

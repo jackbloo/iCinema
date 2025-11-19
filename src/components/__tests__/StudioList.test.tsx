@@ -4,10 +4,12 @@ import StudioList from '../StudioList';
 import useStudioList from '../../hooks/useStudioList';
 import SeatMap from '../SeatMap';
 import QRModal from '../QRModal';
+import Spinner from '../UI/Spinner';
 
 vi.mock('../../hooks/useStudioList');
 vi.mock('../SeatMap');
 vi.mock('../QRModal');
+vi.mock('../UI/Spinner');
 
 describe('StudioList', () => {
   const mockSetSelectedStudio = vi.fn();
@@ -31,6 +33,8 @@ describe('StudioList', () => {
         <button onClick={onClose}>Close QR</button>
       </div>
     ));
+    
+    vi.mocked(Spinner).mockImplementation(() => <div>Loading...</div>);
   });
 
   it('should render studios heading', () => {

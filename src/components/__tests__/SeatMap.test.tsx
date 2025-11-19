@@ -12,6 +12,8 @@ describe('SeatMap', () => {
   const mockSetEmail = vi.fn();
   const mockBookOnline = vi.fn();
   const mockBookOffline = vi.fn();
+  const mockHandleChange = vi.fn();
+  const mockSetActiveTab = vi.fn();
 
   const mockSeats = [
     {
@@ -59,6 +61,11 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 0,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: '',
     });
   });
 
@@ -102,6 +109,11 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 0,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
@@ -131,11 +143,16 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 0,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1, A2',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
     
-    expect(screen.getByText(/Selected: 1, 2/)).toBeDefined();
+    expect(screen.getByText(/Selected: A1, A2/)).toBeDefined();
   });
 
   it('should display none when no seats selected', () => {
@@ -147,14 +164,32 @@ describe('SeatMap', () => {
   it('should render online booking form', () => {
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
     
-    expect(screen.getByText('Online Booking')).toBeDefined();
+    expect(screen.getByRole('heading', { name: 'Online Booking' })).toBeDefined();
     expect(screen.getByText('Book Online (requires login)')).toBeDefined();
   });
 
   it('should render offline booking form', () => {
+    vi.mocked(useSeatMap).mockReturnValue({
+      seats: mockSeats,
+      selected: [],
+      loading: false,
+      name: '',
+      setName: mockSetName,
+      email: '',
+      setEmail: mockSetEmail,
+      toggle: mockToggle,
+      bookOnline: mockBookOnline,
+      bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: '',
+    });
+
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
     
-    expect(screen.getByText('Offline / Cashier')).toBeDefined();
+    expect(screen.getByRole('heading', { name: 'Offline / Cashier' })).toBeDefined();
     expect(screen.getByLabelText(/Customer Name/)).toBeDefined();
     expect(screen.getByLabelText(/Customer Email/)).toBeDefined();
   });
@@ -162,7 +197,7 @@ describe('SeatMap', () => {
   it('should call bookOnline on online form submit', () => {
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
     
-    const onlineForm = screen.getByText('Online Booking').closest('form');
+    const onlineForm = screen.getByRole('heading', { name: 'Online Booking' }).closest('form');
     fireEvent.submit(onlineForm!);
     
     expect(mockBookOnline).toHaveBeenCalled();
@@ -180,32 +215,73 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
     
-    const offlineForm = screen.getByText('Offline / Cashier').closest('form');
+    const offlineForm = screen.getByRole('heading', { name: 'Offline / Cashier' }).closest('form');
     fireEvent.submit(offlineForm!);
     
     expect(mockBookOffline).toHaveBeenCalled();
   });
 
   it('should update customer name on input change', () => {
+    vi.mocked(useSeatMap).mockReturnValue({
+      seats: mockSeats,
+      selected: [],
+      loading: false,
+      name: '',
+      setName: mockSetName,
+      email: '',
+      setEmail: mockSetEmail,
+      toggle: mockToggle,
+      bookOnline: mockBookOnline,
+      bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: '',
+    });
+
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
     
     const nameInput = screen.getByLabelText(/Customer Name/);
     fireEvent.change(nameInput, { target: { value: 'John Doe' } });
     
-    expect(mockSetName).toHaveBeenCalledWith('John Doe');
+    expect(mockHandleChange).toHaveBeenCalledWith('name', 'John Doe');
   });
 
   it('should update customer email on input change', () => {
+    vi.mocked(useSeatMap).mockReturnValue({
+      seats: mockSeats,
+      selected: [],
+      loading: false,
+      name: '',
+      setName: mockSetName,
+      email: '',
+      setEmail: mockSetEmail,
+      toggle: mockToggle,
+      bookOnline: mockBookOnline,
+      bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: '',
+    });
+
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
     
     const emailInput = screen.getByLabelText(/Customer Email/);
     fireEvent.change(emailInput, { target: { value: 'john@example.com' } });
     
-    expect(mockSetEmail).toHaveBeenCalledWith('john@example.com');
+    expect(mockHandleChange).toHaveBeenCalledWith('email', 'john@example.com');
   });
 
   it('should disable online booking button when loading', () => {
@@ -220,6 +296,11 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 0,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
@@ -240,6 +321,11 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
@@ -260,6 +346,11 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: 'This field is required' },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
@@ -280,6 +371,11 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: 'This field is required', name: null },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);
@@ -300,6 +396,11 @@ describe('SeatMap', () => {
       toggle: mockToggle,
       bookOnline: mockBookOnline,
       bookOffline: mockBookOffline,
+      errorMessage: { email: null, name: null },
+      handleChange: mockHandleChange,
+      activeTab: 1,
+      setActiveTab: mockSetActiveTab,
+      selectedSeats: 'A1',
     });
 
     render(<SeatMap studioId={1} token={null} onBooked={mockOnBooked} />);

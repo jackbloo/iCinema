@@ -2,6 +2,7 @@ import React from 'react';
 import SeatMap from './SeatMap';
 import QRModal from './QRModal';
 import useStudioList from 'src/hooks/useStudioList';
+import Spinner from './UI/Spinner';
 
 
 export default function StudioList({ token }: { token: string | null }) {
@@ -12,7 +13,7 @@ export default function StudioList({ token }: { token: string | null }) {
       <aside className="sidebar">
         <h2>Studios</h2>
         <ul>
-          {studios.length === 0 && <li>Loading...</li>}
+          {studios.length === 0 && <div className='flex w-full items-center justify-center'><Spinner/></div>}
           {studios.map(st => (
             <li key={st.id}>
               <button onClick={()=>setSelectedStudio(st)} className={`studio-btn ${selectedStudio?.id === st.id ? 'selected' : ''}`}>{st.name}</button>

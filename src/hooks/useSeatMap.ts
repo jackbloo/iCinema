@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSnackbar } from "src/components/Snackbar";
 import { api } from "src/lib/api";
 import {  BookingResponse } from "src/types/Booking";
 import { Seat } from "src/types/Seats";
+import { validateField } from "src/utils";
 
 
 
@@ -13,8 +14,20 @@ const [seats, setSeats] = useState<Seat[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const { success, error } = useSnackbar();
+  const [activeTab, setActiveTab] = useState<number>(0);
 
-  useEffect(()=>{ fetchSeats(); }, [studioId]);
+  useEffect(()=>{ fetchSeats(); setSelected([]); }, [studioId]);
+
+    const [errorMessage, setErrorMessage] = useState<Record<string, string | null>>({
+    email: null,
+    name: null,
+  });
+  
+    const handleChange = (type: 'email' | 'name', value: string) => {
+      if (type === 'email') setEmail(value);
+      else if (type === 'name') setName(value);
+      setErrorMessage(prev => ({ ...prev, [type]: validateField(type, value) }));
+    };
 
   async function fetchSeats() {
     const data: Seat[] = await api.get(`/cinema/studios/${studioId}/seats`);
@@ -31,6 +44,12 @@ const [seats, setSeats] = useState<Seat[]>([]);
     if(!s || !s.is_available) return;
     setSelected(prev => prev.includes(id) ? prev.filter(x=>x!==id) : [...prev, id]);
   }
+
+  const selectedSeats = useMemo(() => {
+    return seats.filter(seat => selected.includes(seat.id)).map(seat => seat.seat_number).join(', ');
+  },[selected])
+
+
 
   async function bookOnline(e:React.FormEvent) {
     e.preventDefault();
@@ -80,6 +99,11 @@ const [seats, setSeats] = useState<Seat[]>([]);
     toggle,
     bookOnline,
     bookOffline,
+    errorMessage,
+    handleChange,
+    activeTab,
+    setActiveTab,
+    selectedSeats,
   }
 
 }

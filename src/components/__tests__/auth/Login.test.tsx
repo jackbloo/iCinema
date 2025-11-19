@@ -1,15 +1,14 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Login from '../auth/Login';
-import useLogin from '../../hooks/useLogin';
+import Login from '../../auth/Login';
+import useLogin from '../../../hooks/useLogin';
 
-vi.mock('../../hooks/useLogin');
+vi.mock('../../../hooks/useLogin');
 
 describe('Login', () => {
   const mockOnAuth = vi.fn();
   const mockSetOpen = vi.fn();
-  const mockSetEmail = vi.fn();
-  const mockSetPassword = vi.fn();
+  const mockHandleChange = vi.fn();
   const mockDoLogin = vi.fn();
 
   beforeEach(() => {
@@ -18,11 +17,11 @@ describe('Login', () => {
       open: false,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
   });
 
@@ -46,11 +45,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -65,11 +64,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -77,7 +76,7 @@ describe('Login', () => {
     const emailInput = screen.getByLabelText(/Email/);
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     
-    expect(mockSetEmail).toHaveBeenCalledWith('test@example.com');
+    expect(mockHandleChange).toHaveBeenCalledWith('email', 'test@example.com');
   });
 
   it('should update password on input change', () => {
@@ -85,11 +84,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -97,7 +96,7 @@ describe('Login', () => {
     const passwordInput = screen.getByLabelText(/Password/);
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
     
-    expect(mockSetPassword).toHaveBeenCalledWith('password123');
+    expect(mockHandleChange).toHaveBeenCalledWith('password', 'password123');
   });
 
   it('should call doLogin on form submit', () => {
@@ -105,11 +104,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -125,11 +124,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -145,11 +144,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       loading: true,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -163,11 +162,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -181,11 +180,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);
@@ -199,11 +198,11 @@ describe('Login', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       loading: false,
       doLogin: mockDoLogin,
+      errorMessage: { email: null, password: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Login onAuth={mockOnAuth} />);

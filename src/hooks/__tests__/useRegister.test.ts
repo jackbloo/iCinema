@@ -29,15 +29,20 @@ describe('useRegister', () => {
     expect(result.current.email).toBe('');
     expect(result.current.password).toBe('');
     expect(result.current.name).toBe('');
+    expect(result.current.errorMessage).toEqual({
+      email: null,
+      password: null,
+      name: null,
+    });
   });
 
   it('should update email, password, and name', () => {
     const { result } = renderHook(() => useRegister({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
-      result.current.setName('Test User');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
+      result.current.handleChange('name', 'Test User');
     });
 
     expect(result.current.email).toBe('test@example.com');
@@ -73,9 +78,9 @@ describe('useRegister', () => {
     const { result } = renderHook(() => useRegister({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
-      result.current.setName(mockUserName);
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
+      result.current.handleChange('name', mockUserName);
       result.current.setOpen(true);
     });
 
@@ -102,9 +107,9 @@ describe('useRegister', () => {
     const { result } = renderHook(() => useRegister({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
-      result.current.setName('Test User');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
+      result.current.handleChange('name', 'Test User');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -124,9 +129,9 @@ describe('useRegister', () => {
     const { result } = renderHook(() => useRegister({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
-      result.current.setName('Test User');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
+      result.current.handleChange('name', 'Test User');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -150,9 +155,9 @@ describe('useRegister', () => {
     const { result } = renderHook(() => useRegister({ onAuth: mockOnAuth }));
 
     act(() => {
-      result.current.setEmail('test@example.com');
-      result.current.setPassword('password123');
-      result.current.setName('Test User');
+      result.current.handleChange('email', 'test@example.com');
+      result.current.handleChange('password', 'password123');
+      result.current.handleChange('name', 'Test User');
     });
 
     const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;

@@ -1,16 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Register from '../auth/Register';
-import useRegister from '../../hooks/useRegister';
+import Register from '../../auth/Register';
+import useRegister from '../../../hooks/useRegister';
 
-vi.mock('../../hooks/useRegister');
+vi.mock('../../../hooks/useRegister');
 
 describe('Register', () => {
   const mockOnAuth = vi.fn();
   const mockSetOpen = vi.fn();
-  const mockSetEmail = vi.fn();
-  const mockSetPassword = vi.fn();
-  const mockSetName = vi.fn();
+  const mockHandleChange = vi.fn();
   const mockDoRegister = vi.fn();
 
   beforeEach(() => {
@@ -19,12 +17,11 @@ describe('Register', () => {
       open: false,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       name: '',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
   });
 
@@ -48,12 +45,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       name: '',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -69,12 +65,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       name: '',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -82,7 +77,7 @@ describe('Register', () => {
     const nameInput = screen.getByLabelText(/Name/);
     fireEvent.change(nameInput, { target: { value: 'John Doe' } });
     
-    expect(mockSetName).toHaveBeenCalledWith('John Doe');
+    expect(mockHandleChange).toHaveBeenCalledWith('name', 'John Doe');
   });
 
   it('should update email on input change', () => {
@@ -90,12 +85,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       name: '',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -103,7 +97,7 @@ describe('Register', () => {
     const emailInput = screen.getByLabelText(/Email/);
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     
-    expect(mockSetEmail).toHaveBeenCalledWith('test@example.com');
+    expect(mockHandleChange).toHaveBeenCalledWith('email', 'test@example.com');
   });
 
   it('should update password on input change', () => {
@@ -111,12 +105,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       name: '',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -124,7 +117,7 @@ describe('Register', () => {
     const passwordInput = screen.getByLabelText(/Password/);
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
     
-    expect(mockSetPassword).toHaveBeenCalledWith('password123');
+    expect(mockHandleChange).toHaveBeenCalledWith('password', 'password123');
   });
 
   it('should call doRegister on form submit', () => {
@@ -132,12 +125,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       name: 'John Doe',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -153,12 +145,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       name: '',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -174,12 +165,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       name: '',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -193,12 +183,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: '',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       name: 'John Doe',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -212,12 +201,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: '',
-      setPassword: mockSetPassword,
       name: 'John Doe',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);
@@ -231,12 +219,11 @@ describe('Register', () => {
       open: true,
       setOpen: mockSetOpen,
       email: 'test@example.com',
-      setEmail: mockSetEmail,
       password: 'password123',
-      setPassword: mockSetPassword,
       name: 'John Doe',
-      setName: mockSetName,
       doRegister: mockDoRegister,
+      errorMessage: { email: null, password: null, name: null },
+      handleChange: mockHandleChange,
     });
 
     render(<Register onAuth={mockOnAuth} />);

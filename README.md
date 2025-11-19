@@ -1,4 +1,6 @@
 # iCinema Booking — Astro + React (TypeScript)
+![Mobile](./assets/mobile.png)
+![Desktop](./assets/desktop.png)
 
 Minimal responsive frontend for a cinema ticket booking system built with Astro + React (TypeScript).
 This project implements:

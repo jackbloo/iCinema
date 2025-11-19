@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSnackbar } from "src/components/Snackbar";
 import { api } from "src/lib/api";
 import { RegisterResponse } from "src/types/Register";
+import { validateField } from "src/utils";
 
 
 export default function useRegister({onAuth}: {onAuth: (token: string, name: string)=>void}) {
@@ -10,6 +11,18 @@ export default function useRegister({onAuth}: {onAuth: (token: string, name: str
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const {  success, error } = useSnackbar();
+  const [errorMessage, setErrorMessage] = useState<Record<string, string | null>>({
+    email: null,
+    password: null,
+    name: null,
+  });
+
+  const handleChange = (type: 'email' | 'password' | 'name', value: string) => {
+    if (type === 'email') setEmail(value);
+    else if (type === 'password') setPassword(value);
+    else if (type === 'name') setName(value);
+    setErrorMessage(prev => ({ ...prev, [type]: validateField(type, value) }));
+  };
 
   async function doRegister(e: React.FormEvent) {
     e.preventDefault();
@@ -25,5 +38,5 @@ export default function useRegister({onAuth}: {onAuth: (token: string, name: str
       error("Register error");
     }
   }
-  return { open, setOpen, email, setEmail, password, setPassword, name, setName, doRegister };
+  return { open, setOpen, email, password, name, errorMessage, handleChange, doRegister };
 }
