@@ -29,7 +29,7 @@ This project implements:
    ```
    npm run dev
    ```
-3. Open http://localhost:3000
+3. Open [http://localhost:4321](http://localhost:4321/)
 
 ## How to run test
 
